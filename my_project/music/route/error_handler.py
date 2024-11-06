@@ -1,14 +1,8 @@
-"""
-2022
-apavelchak@gmail.com
-© Andrii Pavelchak
-"""
-
 from http import HTTPStatus
 
 from flask import Blueprint, Response, make_response
 
-err_handler_bp = Blueprint('auth_errors', __name__)
+err_handler_bp = Blueprint('music_errors', __name__)
 
 
 @err_handler_bp.app_errorhandler(HTTPStatus.NOT_FOUND)
