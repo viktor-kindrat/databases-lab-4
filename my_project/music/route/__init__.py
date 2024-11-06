@@ -10,5 +10,7 @@ def register_routes(app: Flask) -> None:
     app.register_blueprint(err_handler_bp)
 
     from .compositor_route import compositor_bp
+    from .album_route import album_bp
 
     app.register_blueprint(compositor_bp)
+    app.register_blueprint(album_bp)
