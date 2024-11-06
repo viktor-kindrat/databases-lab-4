@@ -3,3 +3,4 @@
 
 from my_project.music.domain.compositor import Compositor
 from my_project.music.domain.album import Album
+from my_project.music.domain.compositor_album import CompositorAlbum

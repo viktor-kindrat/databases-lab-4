@@ -1,8 +1,9 @@
 from http import HTTPStatus
 from flask import Blueprint, jsonify, Response, request, make_response
 
-from my_project.music.controller import compositor_controller
 from my_project.music.domain import Compositor
+
+from my_project.music.controller import compositor_controller
 
 compositor_bp = Blueprint('compositors', __name__, url_prefix='/compositors')
 
@@ -89,3 +90,18 @@ def find_compositor_by_name() -> Response:
         return make_response(jsonify(compositor), HTTPStatus.OK)
 
     return make_response(jsonify({"error": "Compositor not found"}), HTTPStatus.NOT_FOUND)
+
+
+@compositor_bp.route('/<int:compositor_id>/albums', methods=['POST'])
+def add_album_to_compositor(compositor_id: int):
+    data = request.get_json()
+    album_id = data.get("album_id")
+
+    if not album_id:
+        return make_response(jsonify({"error": "album_id is required"}), HTTPStatus.BAD_REQUEST)
+
+    result = compositor_controller.add_album(compositor_id, album_id)
+    if "error" in result:
+        return make_response(jsonify(result), HTTPStatus.NOT_FOUND)
+
+    return make_response(jsonify(result), HTTPStatus.CREATED)

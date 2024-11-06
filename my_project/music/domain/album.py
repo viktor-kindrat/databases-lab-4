@@ -11,6 +11,12 @@ class Album(db.Model, IDto):
     name = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.TIMESTAMP, nullable=False)
 
+    compositors = db.relationship(
+        "Compositor",
+        secondary="compositor_album",
+        back_populates="albums"
+    )
+
     def __repr__(self) -> str:
         return f"Album({self.id}, '{self.name}', '{self.created_at}')"
 
@@ -18,7 +24,8 @@ class Album(db.Model, IDto):
         return {
             "id": self.id,
             "name": self.name,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
+            "compositors": [{"id": compositor.id, "name": compositor.name} for compositor in self.compositors]
         }
 
     @staticmethod

@@ -13,6 +13,12 @@ class Compositor(db.Model, IDto):
     label_id = db.Column(db.Integer, db.ForeignKey('label.id'), nullable=True)
     label = db.relationship("Label")
 
+    albums = db.relationship(
+        "Album",
+        secondary="compositor_album",
+        back_populates="compositors"
+    )
+
     def __repr__(self) -> str:
         return f"Compositor({self.id}, '{self.name}', '{self.label}')"
 
@@ -22,6 +28,7 @@ class Compositor(db.Model, IDto):
             "name": self.name,
             "label_id": self.label_id or "",
             "label": self.label.name if self.label is not None else "",
+            "albums": [{"id": album.id, "name": album.name} for album in self.albums]
         }
 
     @staticmethod

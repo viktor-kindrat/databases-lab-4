@@ -18,3 +18,10 @@ class CompositorController(GeneralController):
         """
         compositor = self._service.find_compositor_by_name(name)
         return compositor.put_into_dto() if compositor else None
+
+    def add_album(self, compositor_id: int, album_id: int):
+        try:
+            self._service.add_album_to_compositor(compositor_id, album_id)
+            return {"message": "Album added to compositor"}
+        except ValueError as e:
+            return {"error": str(e)}
