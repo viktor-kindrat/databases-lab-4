@@ -1,9 +1,3 @@
-"""
-2022
-apavelchak@gmail.com
-© Andrii Pavelchak
-"""
-
 import os
 from http import HTTPStatus
 import secrets
@@ -14,7 +8,6 @@ from flask_restx import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists, create_database
 
-from my_project.auth.route import register_routes as register_auth_routes
 from my_project.label.route import register_routes as register_label_routes
 from my_project.music.route import register_routes as register_music_routes
 
@@ -45,7 +38,6 @@ def create_app(app_config: Dict[str, Any], additional_config: Dict[str, Any]) ->
     app.config = {**app.config, **app_config}
 
     _init_db(app)
-    register_auth_routes(app)
     register_label_routes(app)
     register_music_routes(app)
     _init_swagger(app)
@@ -84,7 +76,6 @@ def _init_db(app: Flask) -> None:
     if not database_exists(app.config[SQLALCHEMY_DATABASE_URI]):
         create_database(app.config[SQLALCHEMY_DATABASE_URI])
 
-    import my_project.auth.domain
     import my_project.label.domain
     import my_project.music.domain
 
